@@ -6,7 +6,7 @@ module.exports = function (app, namespace) {
         res.json({'main route': 123456});
     });
     router.get('/ping', function(req, res) {
-        res.json({'result': 'pong'});
+        res.json({'result': 'pong, motherfucker.'});
     });
 
     app.use(namespace + '/', router);

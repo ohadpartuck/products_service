@@ -1,11 +1,33 @@
-var express     = require('express');
-var router      = express.Router();
+var express             = require('express'),
+    router              = express.Router(),
+    sanger              = require('../../lib/sanger/sanger'),
+    helper              = require('../../app/helpers/main/helper');
 
 
 module.exports = function (app, namespace) {
+    //TODO - this is sync, check if async will be better.
     router.get('/', function(req, res) {
-        res.json({'body': 123});
+        sanger.get(req, res);
+    });
+
+    router.put('/new', function(req, res) {
+        sanger.create(req, general_callback);
+        res.json({'result': 'sent to be created and indexed at ' + helper.time_now()});
+    });
+
+    router.post('/:id', function(req, res) {
+        sanger.update(req, general_callback);
+        res.json({'result': 'sent to be updated and re-indexed'});
+    });
+
+    router.delete('/:id', function(req, res) {
+        sanger.delete(req, general_callback);
+        res.json({'result': 'sent to be deleted'});
     });
 
     app.use(namespace + '/v1', router);
 };
+
+function general_callback(params){
+    console.log('general callback got ' + params + ' at ' + helper.time_now());
+}

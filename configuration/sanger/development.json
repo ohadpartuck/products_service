@@ -2,6 +2,6 @@
     "globals" : {
     },
     "mongodb":{
-      "hosts": []
+      "hosts": "mongodb://localhost/sanger"
     }
 }
