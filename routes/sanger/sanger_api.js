@@ -12,7 +12,8 @@ module.exports = function (app, namespace) {
 
     router.put('/new', function(req, res) {
         sanger.create(req, general_callback);
-        res.json({'result': 'sent to be created and indexed at ' + helper.time_now()});
+        res.json({'result': 'sent to be created' + helper.time_now(),
+                  'indexed': GLOBAL.MAIN_CONFIG['skip_elastic_searcher']});
     });
 
     router.post('/:id', function(req, res) {
@@ -29,5 +30,5 @@ module.exports = function (app, namespace) {
 };
 
 function general_callback(params){
-    console.log('general callback got ' + params + ' at ' + helper.time_now());
+    console.log('general callback got ' + JSON.stringify(params) + ' at ' + helper.time_now());
 }

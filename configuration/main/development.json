@@ -1,3 +1,11 @@
 {
-    "skip_elastic_searcher": true
+    "skip_elastic_searcher": false,
+    "services":{
+        "api": {
+            "url" : "http://localhost:9000/"
+        },
+        "elastic_searcher": {
+            "url" : "http://localhost:9003/"
+        }
+    }
 }

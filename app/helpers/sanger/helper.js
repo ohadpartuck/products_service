@@ -1,12 +1,12 @@
 
-exports.build_db_query = function(query_from_url){
-    var search_term = {};
+exports.buildDbQuery = function(queryFromUrl){
+    var searchTerm = {};
 
-    for (var key in query_from_url) {
-        if (query_from_url.hasOwnProperty(key)) {
-            search_term[key] = query_from_url[key];
+    for (var key in queryFromUrl) {
+        if (queryFromUrl.hasOwnProperty(key)) {
+            searchTerm[key] = queryFromUrl[key];
         }
     }
 
-    return search_term;
+    return searchTerm;
 };
