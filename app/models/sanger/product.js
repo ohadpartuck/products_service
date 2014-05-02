@@ -9,5 +9,5 @@ var productSchema = new Schema({
     locale                  : String
 });
 
-module.exports = GLOBAL._SANGER_MONGO_CONN.model('Product', productSchema);
+module.exports = _SANGER_MONGO_CONN.model('Product', productSchema);
 

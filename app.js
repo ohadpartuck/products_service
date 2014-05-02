@@ -1,5 +1,5 @@
-GLOBAL.ROOT = __dirname;
-GLOBAL.ENV  = (process.env.NODE_ENV || 'DEVELOPMENT').toLowerCase();
+ROOT = __dirname;
+ENV  = (process.env.NODE_ENV || 'DEVELOPMENT').toLowerCase();
 
 var express         = require('express'),
     app             = express(),
