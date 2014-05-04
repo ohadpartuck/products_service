@@ -1,17 +1,19 @@
-var    extend                   = require('util')._extend,
-    bodyParser               = require('body-parser'),
-    global_constants         = require('global_constants');
+var     extend                  = require('util')._extend,
+        bodyParser              = require('body-parser'),
+        global_constants        = require('global_constants'),
+        helper                  = require('../app/helpers/main/helper');
 
 module.exports = function (app) {
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded());
 
-    MAIN_CONFIG          = require_settings('main');
-    SANGER_CONFIG        = require_settings('sanger');
+    MAIN_CONFIG             = require_settings('main');
+    SANGER_CONFIG           = require_settings('sanger');
 
 
-    SANGER_CONSTATNTS    = global_constants['sanger']['sanger_constants'];
+    MAIN                    = global_constants['main'];
+    SANGER                  = global_constants['sanger']['sanger_constants'];
 
     defineGlobalFunctions();
 };
@@ -36,5 +38,26 @@ function defineGlobalFunctions(){
             }
             return parseInt(value);
         });
+    };
+
+    createNewAndIndex = function(modelObj, productData, onSuccessfulSave, callback){
+        modelObj.save(function(error,  product, numberAffected){
+            helper.generic_handler(error, product, onSuccessfulSave);
+        });
+
+        callback({data: 'Ok. i\'ll create and index.', product_data: productData});
+    };
+
+    updateDocAndIndex = function(model, req, productNewData, onSuccessfulUpdate, callback){
+        model.findOne({ _id: req.params['id'] }, function (err, doc){
+            for (var key in productNewData) {
+                doc._doc[key] = productNewData[key];
+            }
+            doc.save(function(error,  product, numberAffected){
+                helper.generic_handler(error, product, onSuccessfulUpdate);
+            });
+        });
+
+        callback({data: 'Ok. i\'ll update and re-index.', product_data: productNewData});
     }
 }
