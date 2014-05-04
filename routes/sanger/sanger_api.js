@@ -10,10 +10,10 @@ module.exports = function (app, namespace) {
         sanger.get(req, res);
     });
 
-    router.put('/new', function(req, res) {
-        sanger.create(req, general_callback);
+    router.put('/', function(req, res) {
+        sanger.new(req, general_callback);
         res.json({'result': 'sent to be created' + helper.time_now(),
-                  'indexed': MAIN_CONFIG['skip_elastic_searcher']});
+                  'indexed': !MAIN_CONFIG['skip_elastic_searcher']});
     });
 
     router.post('/:id', function(req, res) {
