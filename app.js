@@ -10,6 +10,7 @@ server.listen(9002, function(){
 });
 
 require('./init/app_setup')(app);
+require('./init/global_methods/global_methods');
 require('./init/db_setup');
 require('./init/routes_setup')(app);
 

@@ -1,7 +1,7 @@
 var     extend                  = require('util')._extend,
         bodyParser              = require('body-parser'),
         global_constants        = require('global_constants'),
-        helper                  = require('../app/helpers/main/helper');
+        postman                 = require('../lib/helpers/postman');
 
 module.exports = function (app) {
 
@@ -14,8 +14,6 @@ module.exports = function (app) {
 
     MAIN                    = global_constants['main'];
     SANGER                  = global_constants['sanger']['sanger_constants'];
-
-    defineGlobalFunctions();
 };
 
 
@@ -23,41 +21,4 @@ function require_settings(namespace){
     var defaults                = require('../configuration/' + namespace + '/defaults.json'),
         by_env                  = require('../configuration/' + namespace + '/' + ENV + '.json');
     return extend(defaults, by_env);
-}
-
-function defineGlobalFunctions(){
-    get_doc_id = function (modelName){
-        var key     = modelName + '_id_field';
-        var _id     = 1;
-        $redis_main.get(key, function (err, value) {
-            if (value === undefined) {
-                $redis_main.set(key, _id);
-                value = _id;
-            }else{
-                $redis_main.incr(key);
-            }
-            return parseInt(value);
-        });
-    };
-
-    createNewAndIndex = function(modelObj, productData, onSuccessfulSave, callback){
-        modelObj.save(function(error,  product, numberAffected){
-            helper.generic_handler(error, product, onSuccessfulSave);
-        });
-
-        callback({data: 'Ok. i\'ll create and index.', product_data: productData});
-    };
-
-    updateDocAndIndex = function(model, req, productNewData, onSuccessfulUpdate, callback){
-        model.findOne({ _id: req.params['id'] }, function (err, doc){
-            for (var key in productNewData) {
-                doc._doc[key] = productNewData[key];
-            }
-            doc.save(function(error,  product, numberAffected){
-                helper.generic_handler(error, product, onSuccessfulUpdate);
-            });
-        });
-
-        callback({data: 'Ok. i\'ll update and re-index.', product_data: productNewData});
-    }
 }

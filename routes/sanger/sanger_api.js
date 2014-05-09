@@ -1,7 +1,6 @@
 var express             = require('express'),
     router              = express.Router(),
-    sanger              = require('../../lib/sanger/sanger'),
-    helper              = require('../../app/helpers/main/helper');
+    sanger              = require('../../lib/sanger/sanger');
 
 
 module.exports = function (app, namespace) {
@@ -11,24 +10,20 @@ module.exports = function (app, namespace) {
     });
 
     router.put('/', function(req, res) {
-        sanger.new(req, general_callback);
-        res.json({'result': 'sent to be created' + helper.time_now(),
+        sanger.new(req, genericCallback);
+        res.json({'result': 'sent to be created' + timeNow(),
                   'indexed': !MAIN_CONFIG['skip_elastic_searcher']});
     });
 
     router.post('/:id', function(req, res) {
-        sanger.update(req, general_callback);
+        sanger.update(req, genericCallback);
         res.json({'result': 'sent to be updated and re-indexed'});
     });
 
     router.delete('/:id', function(req, res) {
-        sanger.delete(req, general_callback);
+        sanger.delete(req, genericCallback);
         res.json({'result': 'sent to be deleted'});
     });
 
     app.use(namespace + '/v1', router);
 };
-
-function general_callback(params){
-    console.log('general callback got ' + JSON.stringify(params) + ' at ' + helper.time_now());
-}
