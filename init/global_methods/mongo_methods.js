@@ -22,12 +22,12 @@ updateDocAndIndex = function(model, req, productNewData, elastic_prefix, onSucce
 };
 
 
-getDocFromDb = function(req, model, callback){
+getDocFromDb = function(req, model, elastic_prefix, callback, defaultValue){
     if (skip_elastic) {
         var db_query = buildDbQuery(req.query);
         return queryTheDb(req, db_query, Product, callback);
     }else{
-        return queryElasticSearcher(req, elastic_prefix, callback);
+        return queryElasticSearcher(req, elastic_prefix, callback, defaultValue);
     }
 };
 

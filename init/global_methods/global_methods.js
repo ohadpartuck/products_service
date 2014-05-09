@@ -1,3 +1,4 @@
+//todo extract all these to node module/s
 var skip_elastic            = MAIN_CONFIG['skip_elastic_searcher'];
 
 onSuccessfulSave = function(product, elastic_prefix){
@@ -44,3 +45,4 @@ genericCallback = function(params){
 
 require('./mongo_methods');
 require('./elastic_methods');
+require('./routes_methods');

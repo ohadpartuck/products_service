@@ -1,11 +1,12 @@
-var postman = require('../../lib/helpers/postman');
+var postman = require('rest_postman');
 
-queryElasticSearcher = function(req, elastic_prefix, callback){
+queryElasticSearcher = function(req, elastic_prefix, callback, defaultValue){
     postman.get('elastic_searcher',
         elastic_prefix + req.url,
         {},
         genericOnElasticError,
-        callback);
+        callback,
+        defaultValue);
 };
 
 indexInElastic = function(product, elastic_prefix){
@@ -29,9 +30,10 @@ updateInElastic = function(product, elastic_prefix){
         onElasticIndexSuccess);
 };
 
-genericOnElasticError = function(url, error){
+genericOnElasticError = function(params, defaultValue){
     //TODO send errors to graylog
-    console.log({no_results: true, url: url, error: error});
+    console.log(params);
+    return defaultValue;
 };
 
 onElasticIndexSuccess = function(url, response){

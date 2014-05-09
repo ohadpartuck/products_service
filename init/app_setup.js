@@ -1,7 +1,6 @@
 var     extend                  = require('util')._extend,
         bodyParser              = require('body-parser'),
-        global_constants        = require('global_constants'),
-        postman                 = require('../lib/helpers/postman');
+        global_constants        = require('global_constants');
 
 module.exports = function (app) {
 
